@@ -1,0 +1,6 @@
+@DuyDH.ECommerce.User.API_HostAddress = http://localhost:5168
+
+GET {{DuyDH.ECommerce.User.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
