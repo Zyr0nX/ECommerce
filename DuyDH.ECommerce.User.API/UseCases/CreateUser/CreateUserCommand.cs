@@ -2,8 +2,8 @@
 
 namespace DuyDH.ECommerce.User.API.UseCases.CreateUser;
 
-public class CreateUserCommand : IRequest<string>
+public class CreateUserCommand : IRequest<Microsoft.Graph.Models.User>
 {
-    public string Email { get; set; }
-    public string Password { get; set; }
+    public required string Email { get; init; }
+    public required string Password { get; init; }
 }

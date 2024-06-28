@@ -1,4 +1,6 @@
+using System.Reflection;
 using DuyDH.ECommerce.User.API.Extensions;
+using FastEndpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +11,11 @@ builder.AddServiceDefaults();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddGraphServiceClient();
-builder.Services.AddMSALClient(builder.Configuration);
+builder.Services.AddMsalClient(builder.Configuration);
+var assembly = Assembly.GetExecutingAssembly();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assembly));
+
+builder.Services.AddFastEndpoints();
 
 var app = builder.Build();
 
@@ -43,6 +49,8 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
+
+app.UseFastEndpoints();
 
 app.Run();
 
