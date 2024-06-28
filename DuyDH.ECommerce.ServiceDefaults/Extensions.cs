@@ -1,6 +1,8 @@
+using DuyDH.ECommerce.User.API.Configurations;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
@@ -120,9 +122,9 @@ public static class Extensions
         builder.Services.AddAuthentication()
             .AddJwtBearer(options =>
             {
-                options.Authority =
-                    $"{builder.Configuration["AzureAdB2C:Instance"]}/{builder.Configuration["AzureAdB2C:Domain"]}/v2.0/";
-                options.Audience = builder.Configuration["AzureAdB2C:ClientId"];
+                var azureOptions = builder.Configuration.GetSection("AzureAdB2C").Get<AzureAdB2CConfiguration>();
+                options.Authority = $"{azureOptions.Instance}/{azureOptions.Domain}/v2.0";
+                options.Audience = azureOptions.ClientId;
             });
         return builder;
     }

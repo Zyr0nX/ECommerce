@@ -9,6 +9,7 @@ builder.AddServiceDefaults();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddGraphServiceClient();
+builder.Services.AddMSALClient(builder.Configuration);
 
 var app = builder.Build();
 
