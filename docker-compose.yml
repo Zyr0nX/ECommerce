@@ -1,0 +1,6 @@
+﻿services:
+  duydh.ecommerce.user.migration:
+    image: duydh.ecommerce.user.migration
+    build:
+      context: .
+      dockerfile: DuyDH.ECommerce.User.Migration/Dockerfile

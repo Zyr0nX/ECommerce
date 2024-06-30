@@ -1,6 +1,11 @@
 using System.Reflection;
+using DuyDH.ECommerce.ServiceDefaults;
+using DuyDH.ECommerce.User.API;
+using DuyDH.ECommerce.User.API.Data;
 using DuyDH.ECommerce.User.API.Extensions;
 using FastEndpoints;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +15,12 @@ builder.AddServiceDefaults();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddGraphServiceClient();
-builder.Services.AddMsalClient(builder.Configuration);
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddSignInManager<SignInManager<IdentityUser>>()
+    .AddEntityFrameworkStores<UserDbContext>();
+builder.AddUserDbContext();
+builder.AddJwtAuthentication();
+
 var assembly = Assembly.GetExecutingAssembly();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assembly));
 
@@ -54,7 +63,10 @@ app.UseFastEndpoints();
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+namespace DuyDH.ECommerce.User.API
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+    {
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
 }

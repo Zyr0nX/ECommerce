@@ -1,16 +1,19 @@
-using DuyDH.ECommerce.User.API.Configurations;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using System.Text;
+using DuyDH.ECommerce.ServiceDefaults.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 
-namespace Microsoft.Extensions.Hosting;
+namespace DuyDH.ECommerce.ServiceDefaults;
 
 // Adds common .NET Aspire services: service discovery, resilience, health checks, and OpenTelemetry.
 // This project should be referenced by each service project in your solution.
@@ -117,14 +120,39 @@ public static class Extensions
         return builder;
     }
     
-    public static IHostApplicationBuilder AddAzureAdB2CAuthentication(this IHostApplicationBuilder builder)
+    public static IHostApplicationBuilder AddJwtAuthentication(this IHostApplicationBuilder builder)
     {
+        builder.AddRedisClient("redis");
+        builder.Services.AddScoped<JwtManager>();
         builder.Services.AddAuthentication()
             .AddJwtBearer(options =>
             {
-                var azureOptions = builder.Configuration.GetSection("AzureAdB2C").Get<AzureAdB2CConfiguration>();
-                options.Authority = $"{azureOptions.Instance}/{azureOptions.Domain}/v2.0";
-                options.Audience = azureOptions.ClientId;
+                var jwtConfiguration = builder.Configuration.GetSection("Jwt").Get<JwtConfiguration>();
+                
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtConfiguration.Issuer,
+                    ValidAudience = jwtConfiguration.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfiguration.Secret))
+                };
+
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = async context =>
+                    {
+                        var jwtManager = context.HttpContext.RequestServices.GetRequiredService<JwtManager>();
+                        ;
+                        if (context.Token != null && await jwtManager.IsTokenRevoked(context.Token))
+                        {
+                            context.Fail("This token is revoked.");
+                        }
+                    }
+                };
             });
         return builder;
     }

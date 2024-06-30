@@ -12,6 +12,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{84DBF8BA-0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuyDH.ECommerce.User.API", "DuyDH.ECommerce.User.API\DuyDH.ECommerce.User.API.csproj", "{C6A0B818-29EC-4BE4-8998-C47BB189F6BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuyDH.ECommerce.User.Migration", "DuyDH.ECommerce.User.Migration\DuyDH.ECommerce.User.Migration.csproj", "{719AC82E-7B9A-4A9A-A5F7-B0A03200CA5F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{55BBC270-85B8-4393-BDAB-6C3FF6099DC2}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +37,10 @@ Global
 		{C6A0B818-29EC-4BE4-8998-C47BB189F6BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6A0B818-29EC-4BE4-8998-C47BB189F6BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6A0B818-29EC-4BE4-8998-C47BB189F6BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{719AC82E-7B9A-4A9A-A5F7-B0A03200CA5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{719AC82E-7B9A-4A9A-A5F7-B0A03200CA5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{719AC82E-7B9A-4A9A-A5F7-B0A03200CA5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{719AC82E-7B9A-4A9A-A5F7-B0A03200CA5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +49,7 @@ Global
 		{C097C5EB-9C75-4C74-B13A-9E5987953DEB} = {FF4DF794-86F5-491A-8938-D07ECCDD2925}
 		{EEB73894-F231-400F-A26A-529E2576B82B} = {FF4DF794-86F5-491A-8938-D07ECCDD2925}
 		{C6A0B818-29EC-4BE4-8998-C47BB189F6BE} = {84DBF8BA-0BEC-445A-BC1B-8FD709D32600}
+		{719AC82E-7B9A-4A9A-A5F7-B0A03200CA5F} = {84DBF8BA-0BEC-445A-BC1B-8FD709D32600}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {20B1CAD0-242B-4647-9E85-8AB5DCFFFB3A}
